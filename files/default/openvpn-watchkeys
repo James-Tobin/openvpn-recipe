@@ -1,5 +1,5 @@
 #!/bin/bash
-# monitor openvpn keys directory for changes and create the keys when the file is created.
+# check the openvpn keys directory for new files and create the keys for new files.
 
 die () {
     echo >&2 "$@"
@@ -14,9 +14,9 @@ fi
 
 TARGET_DIR="/opt/openvpn_keys"
 
-inotifywait -m -r --format '%f' --timefmt '%F %T' -e move $TARGET_DIR | while read line
+ls $TARGET_DIR | while read line
 do
-if [[ "$line" != ".unison"* && "$line" != *".zip" && ! -f "$TARGET_DIR/$line.zip" ]]
+if [[ "$line" != ".unison"* && "$line" != *".tmp" && "$line" != *".zip" && ! -e "$TARGET_DIR/$line.zip" ]]
 then
   openvpn-adduser $line
 fi;

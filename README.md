@@ -40,3 +40,7 @@ This recipe is setup to be very specific to the MITRE CTF at this point. In orde
 ## Using this Recipe
 
 The easiest way to use this recipe is by cloning this repository to the machine on which you wish to install openvpn on and then running `sudo chef-client -z -j node.json`.
+The repository is designed to be used with s3fs-fuse to mount an Amazon S3 bucket to the file system.
+Create a /etc/fuse.conf and put `user_allow_other` in the file.
+Run fuse (with allow_other flag) to connect a S3 bucket to /opt/openvpn_keys (you may need to set the permissions on /opt/openvpn_keys to 600).
+Add `﻿*/2 * * * * openvpn-watchkeys` using `sudo crontab -e`
